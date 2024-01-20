@@ -1,0 +1,19 @@
+---
+
+- hosts: all
+  become: true
+  gather_facts: no
+  tasks:
+            - name: Move GPG Keys to Remote Hosts
+              ansible.builtin.cop:
+                        src: /path/to/GPG/keys
+                        dest: /etc/pki/
+                        
+            - name: Move Repo File to Remote Hosts
+              ansible.builtin.copy:
+                        src: /path/to/.repofile
+                        dest: /etc/yum.repos.d/
+                        
+            - name: Fix Permissions of new files
+              shell: chown root:root /etc/yum.repos.d/.repofile && chmod xxxx /etc/yum.repos.d/.repofile
+              
