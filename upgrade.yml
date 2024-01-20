@@ -1,0 +1,22 @@
+---
+
+- hosts: all
+  become: true
+  gather_facts: no
+  tasks:
+            - name: Mount Repo
+              mount:
+                        path: /path/to/repo
+                        src: x.x.x.x:/repo
+                        state: mounted
+                        opts: defaults,noexec,nosuid,nodev
+                        fstype: nfs
+            - name: Clean & Cache
+              shell: yum clean all && yum makecache
+              
+            - name: Upgrade Packages From Repo
+              yum:
+                        name: '*'
+                        state: latest
+                        skip_broken: true
+                        disable_gpg_check: true
